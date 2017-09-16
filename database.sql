@@ -5,5 +5,6 @@ CREATE TABLE tasks_todo(
 	task VARCHAR(50),
 	description VARCHAR(100),
 	date_added DATE,
-	deadline DATE,
+	deadlinedate DATE,
+	deadlinetime TIME,
 	complete BOOLEAN DEFAULT false);
