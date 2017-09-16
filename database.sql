@@ -6,5 +6,5 @@ CREATE TABLE tasks_todo(
 	description VARCHAR(100),
 	date_added DATE,
 	deadlinedate DATE,
-	deadlinetime TIME,
+	deadlinetime TIME DEFAULT '00:00:00',
 	complete BOOLEAN DEFAULT false);
