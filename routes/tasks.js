@@ -76,7 +76,22 @@ router.put('/:id', function(req, res){
 router.delete('/:id', function(req, res){
     var removeID = req.params.id;
     console.log('id received:', removeID);
-    res.sendStatus(200); 
+    pool.connect(function(error, client, done){
+        if (error){
+            console.log(error);
+            res.sendStatus(500);
+        }else{
+            client.query('DELETE FROM tasks_todo WHERE id=$1', [removeID], function(queryError, resultObj){
+                if (queryError){
+                    console.log(queryError);
+                    res.sendStatus(500);
+                }else{
+                    console.log('Item deleted from table');
+                    res.sendStatus(201);
+                }
+            })
+        }
+    })
 })
 
 module.exports = router;

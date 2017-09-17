@@ -75,6 +75,7 @@ function deleteTask(){
         url: '/tasks/' + taskID,
         success: function(res){
             console.log('Server response', res);
+            getTasks();
         }
     })
 }
