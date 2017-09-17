@@ -51,4 +51,26 @@ router.post('/', function(req, res){
     })
 })
 
+router.put('/:id', function(req, res){
+    var completeID = req.params.id;
+    console.log('received id for change:', completeID);
+    pool.connect(function(error, client, done){
+        if (error){
+            console.log(error);
+            res.sendStatus(500);
+        }else{
+            client.query('UPDATE tasks_todo SET complete = true WHERE id=$1', [completeID], function(queryError, resultObj){
+                done();
+                if (queryError){
+                    console.log(queryError);
+                    res.sendStatus(500);
+                }else{
+                    console.log('tasks_todo updated');
+                    res.sendStatus(201);
+                }
+            })
+        }
+    })
+})
+
 module.exports = router;

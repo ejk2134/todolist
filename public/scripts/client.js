@@ -4,6 +4,8 @@ function onReady(){
     console.log('js sourced');
     //listeners
     $('#newTask').on('click', newTask);
+    $('#taskDisplay').on('click', '.completeButton', markComplete);
+    // display tasks on DOM
     getTasks();
 }
 
@@ -14,7 +16,7 @@ function getTasks(){
         success: function(taskList){
             $('#taskDisplay').empty();
             for (var i = 0; i < taskList.length; i++){
-                var $newRow = $('<tr>');
+                var $newRow = $('<tr>').data('id', taskList[i].id);
                 $newRow.append('<td>' + taskList[i].task + '</td>');
                 $newRow.append('<td>' + taskList[i].description + '</td>');
                 $newRow.append('<td>' + taskList[i].date_added + '</td>');
@@ -49,4 +51,16 @@ function newTask(){
             getTasks();
         }
     });
+}
+
+function markComplete(){
+    var taskID = $(this).parent().parent().data('id');
+    $.ajax({
+        type: 'PUT',
+        url: '/tasks/' + taskID,
+        success: function(res){
+            console.log('Server response:', res);
+            getTasks();
+        }
+    })
 }
