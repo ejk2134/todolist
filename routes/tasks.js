@@ -73,4 +73,10 @@ router.put('/:id', function(req, res){
     })
 })
 
+router.delete('/:id', function(req, res){
+    var removeID = req.params.id;
+    console.log('id received:', removeID);
+    res.sendStatus(200); 
+})
+
 module.exports = router;

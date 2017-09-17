@@ -5,6 +5,7 @@ function onReady(){
     //listeners
     $('#newTask').on('click', newTask);
     $('#taskDisplay').on('click', '.completeButton', markComplete);
+    $('#taskDisplay').on('click', '.deleteButton', deleteTask);
     // display tasks on DOM
     getTasks();
 }
@@ -63,6 +64,17 @@ function markComplete(){
         success: function(res){
             console.log('Server response:', res);
             getTasks();
+        }
+    })
+}
+
+function deleteTask(){
+    var taskID = $(this).parent().parent().data('id');
+    $.ajax({
+        type: 'DELETE',
+        url: '/tasks/' + taskID,
+        success: function(res){
+            console.log('Server response', res);
         }
     })
 }
