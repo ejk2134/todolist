@@ -22,11 +22,13 @@ function getTasks(){
                 $newRow.append('<td>' + taskList[i].date_added + '</td>');
                 $newRow.append('<td>' + taskList[i].deadlinedate + taskList[i].deadlinetime + '</td>');
                 if (taskList[i].complete === false){
-                    $button = $('<button>', {class: 'completeButton', text: 'Mark as complete'});
+                    var $button = $('<button>', {class: 'completeButton', text: 'Mark as complete'});
                     $newRow.append(($('<td>').append($button)));
                 }else{
                     $newRow.append('<td>'+'Task complete'+'</td>');
                 }
+                var $deleteButton = $('<button>', {class: 'deleteButton', text: 'Forget this task'});
+                $newRow.append(($('<td>').append($deleteButton)));
                 $('#taskDisplay').append($newRow);
             }
         }
