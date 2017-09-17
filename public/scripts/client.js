@@ -18,17 +18,20 @@ function getTasks(){
             $('#taskDisplay').empty();
             for (var i = 0; i < taskList.length; i++){
                 var $newRow = $('<tr>').data('id', taskList[i].id);
+
                 $newRow.append('<td>' + taskList[i].task + '</td>');
                 $newRow.append('<td>' + taskList[i].description + '</td>');
                 $newRow.append('<td>' + displayDate(taskList[i].date_added) + '</td>');
-                $newRow.append('<td>' + displayDate(taskList[i].deadlinedate) + ' at ' + taskList[i].deadlinetime + '</td>');
+                $newRow.append('<td>' + displayDate(taskList[i].deadlinedate) + ' at <span class="table-time">' + displayTime(taskList[i].deadlinetime) + '</span></td>');
                 if (taskList[i].complete === false){
+                    $newRow.attr('class', 'incomplete-task');
                     var $button = $('<button>', {class: 'completeButton', text: 'Mark as complete'});
                     $newRow.append(($('<td>').append($button)));
                 }else{
+                    $newRow.attr('class', 'complete-task');
                     $newRow.append('<td>'+'Task complete'+'</td>');
                 }
-                var $deleteButton = $('<button>', {class: 'deleteButton', text: 'Forget this task'});
+                var $deleteButton = $('<button>', {type: "button", class: 'btn btn-default deleteButton', text: 'Forget this task'});
                 $newRow.append(($('<td>').append($deleteButton)));
                 $('#taskDisplay').append($newRow);
             }
@@ -37,6 +40,18 @@ function getTasks(){
 }
 
 function newTask(){
+    if (($('#dueMonth').val() === '02' || $('#dueMonth').val() === '04' || $('#dueMonth').val() === '06' ||
+    $('#dueMonth').val() === '09' || $('#dueMonth').val() === '11') && $('#dueDay').val() === '31'){
+        alert('That\'s not a real date!');
+        return 0;
+    }else if(($('#dueMonth').val() === '02' && $('#dueDay').val() === '30')){
+        alert('That\'s not a real date!');
+        return 0;
+    }else if(($('#dueYear').val() % 4 != 0 || $('#dueYear').val() % 100 === 0) && $('#dueMonth').val() === '02'
+            && $('#dueDay').val() === '29'){
+        alert('That\'s not a real date!');
+        return 0;
+    }
     // get today's date automatically
     var timeZoneOffset = (new Date()).getTimezoneOffset() *60000;
     var today = (new Date(Date.now() - timeZoneOffset)).toISOString().slice(0, 10);
@@ -133,4 +148,25 @@ function displayDate(dateString){
     var day = parseInt(dateString.slice(8, 10));
     var year = dateString.slice(0, 4);
     return month + ' ' + day + ', ' + year;
+}
+
+function displayTime(timeString){
+    var hour = parseInt(timeString.slice(0, 2));
+    var ampm = 'am';
+    if (hour > 12){
+        hour -= 12;
+        ampm = 'pm';
+    }
+    var minute = timeString.slice(2, 5);
+    if (minute = ':00'){
+        minute = '';
+    }
+
+    if (timeString === '00:00:00'){
+        return 'midnight';
+    }else if (timeString === '12:00:00'){
+        return 'noon';
+    }
+
+    return hour + minute + ' ' + ampm;
 }

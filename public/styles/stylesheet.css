@@ -1,0 +1,27 @@
+body {
+    background-color: #EBE9E9;
+    color: #575757;
+}
+
+.container-fluid {
+    border-bottom-style: solid;
+    border-bottom-width: 6px;
+    border-bottom-color: powderblue;
+}
+
+.form-control{
+    margin: 3px;
+}
+
+.incomplete-task{
+    background-color: #FAB2B2;
+}
+
+.complete-task{
+    background-color: #BCFFBC;
+}
+
+.table-time{
+    color: #B93E0E;
+    font-family: "impact";
+}
