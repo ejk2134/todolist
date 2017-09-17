@@ -23,6 +23,7 @@ router.get('/', function(req, res){
 
 router.post('/', function(req, res){
     console.log('recieved POST request from client');
+    var today = new Date();
     var insertObj = req.body;
     pool.connect(function(error, client, done){
         if (error){
@@ -33,7 +34,7 @@ router.post('/', function(req, res){
             var values = [
                 insertObj.task,
                 insertObj.description,
-                '1989-10-18',
+                insertObj.date_added,
                 insertObj.deadlinedate,
                 insertObj.deadlinetime
             ]

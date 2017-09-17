@@ -37,10 +37,15 @@ function getTasks(){
 }
 
 function newTask(){
+    // get today's date automatically
+    var timeZoneOffset = (new Date()).getTimezoneOffset() *60000;
+    var today = (new Date(Date.now() - timeZoneOffset)).toISOString().slice(0, 10);
     var dueDate = $('#dueYear').val() + '-' + $('#dueMonth').val() + '-' + $('#dueDay').val()
+    console.log(today);
     var newTask = {
         task: $('#taskName').val(),
         description: $('#desc').val(),
+        date_added: today,
         deadlinedate: dueDate,
         deadlinetime: $('#dueTime').val()
     }
