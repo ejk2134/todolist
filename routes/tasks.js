@@ -44,7 +44,7 @@ router.post('/', function(req, res){
                     console.log(queryError);
                     res.sendStatus(500);
                 }else{
-                    console.log('INSERT query complete... **DATE ADDED NOT DONE**');
+                    console.log('INSERT query complete');
                     res.sendStatus(201);
                 }
             })
