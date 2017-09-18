@@ -18,36 +18,39 @@ function getTasks(){
             $('#taskDisplay').empty();
             // incomplete tasks first
             for (var i = 0; i < taskList.length; i++){
+                // add incomplete tasks first
                 if (taskList[i].complete === false){
+                    // create a new row
                     var $newRow = $('<tr>').data('id', taskList[i].id);
-
+                    // add task attributes to new row
                     $newRow.append('<td>' + taskList[i].task + '</td>');
                     $newRow.append('<td>' + taskList[i].description + '</td>');
                     $newRow.append('<td>' + displayDate(taskList[i].date_added) + '</td>');
                     $newRow.append('<td>' + displayDate(taskList[i].deadlinedate) + ' at <span class="table-time">' + displayTime(taskList[i].deadlinetime) + '</span></td>');
-                
+                    // give incomplete task rows css class and complete button
                     $newRow.attr('class', 'incomplete-task');
                     var $button = $('<button>', {class: 'completeButton btn btn-success btn-sm', text: 'Complete?'});
                     $newRow.append($('<td>').append($button));
-
+                    // add delete button
                     var $deleteButton = $('<button>', {type: "button", class: 'btn btn-danger btn-sm deleteButton', text: 'Forget?'});
                     $newRow.append(($('<td>').append($deleteButton)));
                     $('#taskDisplay').append($newRow);
                 }
             }
-            // then complete tasks
             for (var i = 0; i < taskList.length; i++){
+                // then complete tasks
                 if (taskList[i].complete === true){
+                    // add new row
                     var $newRow = $('<tr>').data('id', taskList[i].id);
-
+                    // add task attributes
                     $newRow.append('<td>' + taskList[i].task + '</td>');
                     $newRow.append('<td>' + taskList[i].description + '</td>');
                     $newRow.append('<td>' + displayDate(taskList[i].date_added) + '</td>');
                     $newRow.append('<td>' + displayDate(taskList[i].deadlinedate) + ' at <span class="table-time">' + displayTime(taskList[i].deadlinetime) + '</span></td>');
-                    
+                    // give completed task css class
                     $newRow.attr('class', 'complete-task');
                     $newRow.append('<td>'+'Task complete'+'</td>');
-
+                    //delete button
                     var $deleteButton = $('<button>', {type: "button", class: 'btn btn-danger btn-sm deleteButton', text: 'Forget?'});
                     $newRow.append(($('<td>').append($deleteButton)));
                     $('#taskDisplay').append($newRow);
@@ -83,7 +86,7 @@ function newTask(){
         deadlinedate: dueDate,
         deadlinetime: $('#dueTime').val()
     }
-
+    // send new task to database
     $.ajax({
         type: 'POST',
         url: '/tasks',
@@ -91,6 +94,7 @@ function newTask(){
         success: function(res){
             console.log('server sent response:', res);
             getTasks();
+            // reset inputs
             $('#taskName').val('');
             $('#desc').val('');
             $('#dueMonth').val('01');
@@ -103,6 +107,7 @@ function newTask(){
 
 function markComplete(){
     var taskID = $(this).parent().parent().data('id');
+    // change completed to true
     $.ajax({
         type: 'PUT',
         url: '/tasks/' + taskID,
@@ -119,6 +124,7 @@ function deleteTask(){
         return 0;
     }
     var taskID = $(this).parent().parent().data('id');
+    // remove row from database
     $.ajax({
         type: 'DELETE',
         url: '/tasks/' + taskID,
@@ -130,6 +136,7 @@ function deleteTask(){
 }
 
 function displayDate(dateString){
+    // make date look good for DOM
     switch (dateString.slice(5, 7)){
         case '01':
         var month = 'January';
@@ -174,6 +181,7 @@ function displayDate(dateString){
 }
 
 function displayTime(timeString){
+    // make time look good for DOM
     var hour = parseInt(timeString.slice(0, 2));
     var ampm = 'am';
     if (hour > 12){
