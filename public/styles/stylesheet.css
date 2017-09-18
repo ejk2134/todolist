@@ -8,6 +8,18 @@ body {
     color: #575757;
 }
 
+#complete-by{
+    padding-left: 10px;
+}
+
+#form-zone{
+    padding-top: 7px;
+}
+
+.dropdowns{
+    float: right;
+}
+
 .container-fluid {
     border-bottom-style: solid;
     border-bottom-width: 6px;
