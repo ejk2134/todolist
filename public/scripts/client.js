@@ -27,8 +27,8 @@ function getTasks(){
                     $newRow.append('<td>' + displayDate(taskList[i].deadlinedate) + ' at <span class="table-time">' + displayTime(taskList[i].deadlinetime) + '</span></td>');
                 
                     $newRow.attr('class', 'incomplete-task');
-                    var $button = $('<button>', {class: 'completeButton btn btn-success', text: 'Complete'});
-                    $newRow.append(($('<td>').append($button).append('<span class="glyphicon glyphicon-ok"></span>')));
+                    var $button = $('<button>', {class: 'completeButton btn btn-success btn-sm', text: 'Complete?'});
+                    $newRow.append($('<td>').append($button));
 
                     var $deleteButton = $('<button>', {type: "button", class: 'btn btn-danger btn-sm deleteButton', text: 'Forget?'});
                     $newRow.append(($('<td>').append($deleteButton)));

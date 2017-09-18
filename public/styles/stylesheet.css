@@ -16,6 +16,24 @@ body {
     padding-top: 7px;
 }
 
+.btn-primary{
+    background: none;
+    border: 4px solid powderblue;
+    color: #575757;
+}
+
+.btn-primary:hover{
+    background: powderblue;
+    border: 4px solid #93D9E0;
+    color: #575757;
+}
+
+.btn-success{
+    background: none;
+    border: 4px solid #DAFFDA;
+    color: #575757;
+}
+
 .dropdowns{
     float: right;
 }
