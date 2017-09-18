@@ -16,30 +16,49 @@ function getTasks(){
         url: '/tasks',
         success: function(taskList){
             $('#taskDisplay').empty();
+            // incomplete tasks first
             for (var i = 0; i < taskList.length; i++){
-                var $newRow = $('<tr>').data('id', taskList[i].id);
-
-                $newRow.append('<td>' + taskList[i].task + '</td>');
-                $newRow.append('<td>' + taskList[i].description + '</td>');
-                $newRow.append('<td>' + displayDate(taskList[i].date_added) + '</td>');
-                $newRow.append('<td>' + displayDate(taskList[i].deadlinedate) + ' at <span class="table-time">' + displayTime(taskList[i].deadlinetime) + '</span></td>');
                 if (taskList[i].complete === false){
+                    var $newRow = $('<tr>').data('id', taskList[i].id);
+
+                    $newRow.append('<td>' + taskList[i].task + '</td>');
+                    $newRow.append('<td>' + taskList[i].description + '</td>');
+                    $newRow.append('<td>' + displayDate(taskList[i].date_added) + '</td>');
+                    $newRow.append('<td>' + displayDate(taskList[i].deadlinedate) + ' at <span class="table-time">' + displayTime(taskList[i].deadlinetime) + '</span></td>');
+                
                     $newRow.attr('class', 'incomplete-task');
-                    var $button = $('<button>', {class: 'completeButton', text: 'Mark as complete'});
-                    $newRow.append(($('<td>').append($button)));
-                }else{
+                    var $button = $('<button>', {class: 'completeButton btn btn-success', text: 'Complete'});
+                    $newRow.append(($('<td>').append($button).append('<span class="glyphicon glyphicon-ok"></span>')));
+
+                    var $deleteButton = $('<button>', {type: "button", class: 'btn btn-danger btn-sm deleteButton', text: 'Forget?'});
+                    $newRow.append(($('<td>').append($deleteButton)));
+                    $('#taskDisplay').append($newRow);
+                }
+            }
+            // then complete tasks
+            for (var i = 0; i < taskList.length; i++){
+                if (taskList[i].complete === true){
+                    var $newRow = $('<tr>').data('id', taskList[i].id);
+
+                    $newRow.append('<td>' + taskList[i].task + '</td>');
+                    $newRow.append('<td>' + taskList[i].description + '</td>');
+                    $newRow.append('<td>' + displayDate(taskList[i].date_added) + '</td>');
+                    $newRow.append('<td>' + displayDate(taskList[i].deadlinedate) + ' at <span class="table-time">' + displayTime(taskList[i].deadlinetime) + '</span></td>');
+                    
                     $newRow.attr('class', 'complete-task');
                     $newRow.append('<td>'+'Task complete'+'</td>');
+
+                    var $deleteButton = $('<button>', {type: "button", class: 'btn btn-danger btn-sm deleteButton', text: 'Forget?'});
+                    $newRow.append(($('<td>').append($deleteButton)));
+                    $('#taskDisplay').append($newRow);
                 }
-                var $deleteButton = $('<button>', {type: "button", class: 'btn btn-default deleteButton', text: 'Forget this task'});
-                $newRow.append(($('<td>').append($deleteButton)));
-                $('#taskDisplay').append($newRow);
             }
         }
     })
 }
 
 function newTask(){
+    // make sure user has entered a valid date
     if (($('#dueMonth').val() === '02' || $('#dueMonth').val() === '04' || $('#dueMonth').val() === '06' ||
     $('#dueMonth').val() === '09' || $('#dueMonth').val() === '11') && $('#dueDay').val() === '31'){
         alert('That\'s not a real date!');
@@ -52,7 +71,7 @@ function newTask(){
         alert('That\'s not a real date!');
         return 0;
     }
-    // get today's date automatically
+    // get today's date automatically for date_added attribute
     var timeZoneOffset = (new Date()).getTimezoneOffset() *60000;
     var today = (new Date(Date.now() - timeZoneOffset)).toISOString().slice(0, 10);
     var dueDate = $('#dueYear').val() + '-' + $('#dueMonth').val() + '-' + $('#dueDay').val()
@@ -95,6 +114,10 @@ function markComplete(){
 }
 
 function deleteTask(){
+    var confirm = window.confirm('Click Ok to remove this task from the list');
+    if (!confirm){
+        return 0;
+    }
     var taskID = $(this).parent().parent().data('id');
     $.ajax({
         type: 'DELETE',
@@ -168,5 +191,5 @@ function displayTime(timeString){
         return 'noon';
     }
 
-    return hour + minute + ' ' + ampm;
+    return hour + minute + ampm;
 }

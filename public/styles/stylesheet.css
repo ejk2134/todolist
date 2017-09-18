@@ -1,5 +1,10 @@
+h1{
+    font-style: italic;
+    font-weight: bold;
+}
+
 body {
-    background-color: #EBE9E9;
+    background-color: #FAFAFA;
     color: #575757;
 }
 
@@ -13,15 +18,19 @@ body {
     margin: 3px;
 }
 
+.form-control:focus{
+    border-color: powderblue;
+}
+
 .incomplete-task{
-    background-color: #FAB2B2;
+    background-color: #F8D9D9;
 }
 
 .complete-task{
-    background-color: #BCFFBC;
+    background-color: #DAFFDA;
 }
 
 .table-time{
-    color: #B93E0E;
+    color: #DF7700;
     font-family: "impact";
 }
